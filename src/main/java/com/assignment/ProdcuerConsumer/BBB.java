@@ -8,16 +8,16 @@ public class BBB {
         // Initially, there needs to be some data
         // in order to consume the data. So,
         // Producer object is created first
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        ExecutorService executor = Executors.newFixedThreadPool(2);
         ChainQueue start = new ChainQueue();
         ChainQueue end = new ChainQueue();
         Producer p = new Producer(start);
         Consumer a = new Consumer(p.A, 1, end);
         start.add(a);
 
-
-        executor.execute(p);
         executor.execute(a);
+        executor.execute(p);
+
 
 
         // Sending this producer object

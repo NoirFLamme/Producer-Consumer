@@ -32,7 +32,7 @@ class Consumer implements IObserver, Runnable {
         synchronized (A.data)
         {
 
-            while (true) {
+            while (state) {
                 try {
                     A.data.wait(rand.nextInt(6000));
                 } catch (Exception e) {
