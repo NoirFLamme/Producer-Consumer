@@ -3,7 +3,7 @@ package com.assignment.ProdcuerConsumer;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 
-class Consumer extends Thread implements IObserver {
+class Consumer implements IObserver, Runnable {
 
     // Creating the object of the
     // producer class
@@ -15,14 +15,15 @@ class Consumer extends Thread implements IObserver {
 
     // Assigning the object of the
     // producer class
-    Consumer(ChainQueue publisher, int a)
+    Consumer(ChainQueue publisher, int a, ChainQueue receiver)
     {
         A = publisher;
-        B = new ChainQueue();
+        B = receiver;
         this.a = a;
     }
 
     // Overriding the run method
+    @Override
     public void run()
     {
 
@@ -30,6 +31,7 @@ class Consumer extends Thread implements IObserver {
         // buffer to the shared producer
         synchronized (A.data)
         {
+
             while (true) {
                 try {
                     A.data.wait(rand.nextInt(6000));
@@ -46,6 +48,7 @@ class Consumer extends Thread implements IObserver {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
             }
         }
     }

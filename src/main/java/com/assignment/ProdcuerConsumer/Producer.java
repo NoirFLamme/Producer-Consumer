@@ -5,14 +5,14 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
 
-public class Producer extends Thread {
+public class Producer implements Runnable {
     Random rand = new Random();
     ChainQueue A;
 
 
-    Producer()
+    Producer(ChainQueue a)
     {
-        A = new ChainQueue();
+        A = a;
     }
 
     public void run()
@@ -24,12 +24,14 @@ public class Producer extends Thread {
                 try {
                     System.out.println("Produced " + i);
                     A.data.add(i);
+                    A.notifyObservers();
                     A.wait(rand.nextInt(6000));
                 }
                 catch (Exception e) {
                     e.printStackTrace();
                 }
-               A.notify();
+
+
             }
 
             // Notifying the buffer
